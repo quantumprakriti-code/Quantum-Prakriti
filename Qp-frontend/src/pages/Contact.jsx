@@ -186,7 +186,7 @@ export default function Contact() {
                 <MapPin size={18} />
                 <div>
                   <strong>Office Address</strong>
-                  <span>4th floor,Medha Hi-tech City,Sy. No. 53,<br/>Kesarapalli,Gannavaram,Vijayawada,Andhra Pradesh 521102,India.</span>
+                  <span>4th floor,Medha Hi-tech City,<br/>Kesarapalli,Gannavaram,Vijayawada,Andhra Pradesh 521102,India.</span>
                 </div>
               </li>
             </ul>

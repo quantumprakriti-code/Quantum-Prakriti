@@ -1,10 +1,13 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Languages, ChevronDown, Check ,ArrowRight} from 'lucide-react';
+import { Menu, X, ArrowRight, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { flushSync } from 'react-dom';
 import './Navbar.css';
 import qprakritimark from './q-prakriti-mark.png';
+
 const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
@@ -35,14 +38,58 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [lang, setLang] = useState(getSavedLang);
+
   const langRef = useRef(null);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const handleThemeToggle = async (e) => {
+    const btn = e.currentTarget; // capture before any await
+  
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+  
+    // Fallback for unsupported browsers / reduced motion
+    if (!document.startViewTransition || reduceMotion) {
+      toggleTheme();
+      return;
+    }
+  
+    const { top, left, width, height } = btn.getBoundingClientRect();
+    const x = left + width / 2;
+    const y = top + height / 2;
+    const maxRadius = Math.hypot(
+      Math.max(left, window.innerWidth - left),
+      Math.max(top, window.innerHeight - top)
+    );
+  
+    const transition = document.startViewTransition(() => {
+      flushSync(() => toggleTheme());
+    });
+  
+    await transition.ready;
+  
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${maxRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      {
+        duration: 500,
+        easing: 'ease-in-out',
+        pseudoElement: '::view-transition-new(root)',
+      }
+    );
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
+
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -56,8 +103,11 @@ export default function Navbar() {
     if (!langOpen) return;
 
     const onPointerDown = (e) => {
-      if (langRef.current && !langRef.current.contains(e.target)) setLangOpen(false);
+      if (langRef.current && !langRef.current.contains(e.target)) {
+        setLangOpen(false);
+      }
     };
+
     const onKey = (e) => {
       if (e.key === 'Escape') setLangOpen(false);
     };
@@ -65,6 +115,7 @@ export default function Navbar() {
     document.addEventListener('mousedown', onPointerDown);
     document.addEventListener('touchstart', onPointerDown);
     document.addEventListener('keydown', onKey);
+
     return () => {
       document.removeEventListener('mousedown', onPointerDown);
       document.removeEventListener('touchstart', onPointerDown);
@@ -72,30 +123,61 @@ export default function Navbar() {
     };
   }, [langOpen]);
 
-  // Remember choice + set <html lang>
+  // Remember language choice
   const chooseLang = (code) => {
     setLang(code);
     setLangOpen(false);
     document.documentElement.lang = code;
+
     try {
       localStorage.setItem('qp-lang', code);
     } catch {
-      /* ignore */
+      // Ignore localStorage errors
     }
-    // TODO: hook up real translation here (react-i18next / Google Translate)
+
+    // TODO: Connect real translations using react-i18next or Google Translate.
   };
 
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
 
+  // Reusable theme toggle: displays only one icon at a time.
+  const renderThemeToggle = (mobile = false) => (
+    <button
+      type="button"
+      className="nav__theme-toggle nav__theme-toggle--single"
+      onClick={handleThemeToggle}
+      aria-label={
+        theme === 'light'
+          ? 'Switch to dark mode'
+          : 'Switch to light mode'
+      }
+      aria-pressed={theme === 'dark'}
+      title={theme === 'light' ? 'Light mode' : 'Dark mode'}
+    >
+      {theme === 'dark' ? (
+  <Sun
+    className="nav__single-theme-icon nav__sun-icon"
+    aria-hidden="true"
+  />
+) : (
+  <Moon
+    className="nav__single-theme-icon nav__moon-icon"
+    aria-hidden="true"
+  />
+)}
+    </button>
+  );
+
   return (
     <header className={`nav ${scrolled ? 'nav--scrolled' : ''}`}>
       <div className="nav__inner container">
         <Link to="/" className="nav__brand" aria-label="Q-Prakriti home">
           <span className="nav__mark">
-            <img src={qprakritimark} alt="logo" />
+            <img src={qprakritimark} alt="Q-Prakriti logo" />
           </span>
+
           <span className="nav__word">Q-Prakriti</span>
         </Link>
 
@@ -105,7 +187,9 @@ export default function Navbar() {
               key={l.to}
               to={l.to}
               end={l.to === '/'}
-              className={({ isActive }) => `nav__link ${isActive ? 'is-active' : ''}`}
+              className={({ isActive }) =>
+                `nav__link ${isActive ? 'is-active' : ''}`
+              }
             >
               {l.label}
             </NavLink>
@@ -113,30 +197,20 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__right">
-          {/* Language dropdown */}
-          
+          {/* Desktop theme toggle */}
+          {renderThemeToggle()}
 
-          {/* Theme toggle pill */}
-          <button
-            className="nav__theme-toggle"
-            onClick={toggleTheme}
-            aria-label={theme === 'light' ? 'Switch to dark mode': 'Switch to light mode' }
-            data-active={theme}
+          <Link
+            to="/book-demo"
+            className="advisory__btn advisory__btn--gold"
           >
-            <div className="nav__theme-toggle__track">
-              <span className="nav__theme-toggle__icon" aria-hidden>🌙</span>
-              <span className="nav__theme-toggle__icon" aria-hidden>☀️</span>
-            </div>
-            <span className="nav__theme-toggle__knob" />
-          </button>
-
-          
-          <Link to="/book-demo" className="advisory__btn advisory__btn--gold">
             Book a Demo <ArrowRight size={14} />
           </Link>
         </div>
 
+        {/* Mobile menu button */}
         <button
+          type="button"
           className="nav__toggle"
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? 'Close menu' : 'Open menu'}
@@ -150,10 +224,14 @@ export default function Navbar() {
         {open && (
           <motion.nav
             className="nav__mobile"
+            aria-label="Mobile navigation"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{
+              duration: 0.3,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
             <div className="container nav__mobile-inner">
               {links.map((l) => (
@@ -161,16 +239,21 @@ export default function Navbar() {
                   key={l.to}
                   to={l.to}
                   end={l.to === '/'}
-                  className={({ isActive }) => `nav__mobile-link ${isActive ? 'is-active' : ''}`}
+                  className={({ isActive }) =>
+                    `nav__mobile-link ${isActive ? 'is-active' : ''}`
+                  }
                 >
                   {l.label}
                 </NavLink>
               ))}
 
               <div className="nav__mobile-actions">
-                {/* Mobile language */}
+                {/* Mobile language selection */}
                 <div className="nav__mobile-theme">
-                  <span className="nav__mobile-theme-label">Language</span>
+                  <span className="nav__mobile-theme-label">
+                    Language
+                  </span>
+
                   <select
                     className="nav__mobile-lang"
                     value={lang}
@@ -191,22 +274,13 @@ export default function Navbar() {
                     {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
                   </span>
 
-                  <button
-                    className="nav__theme-toggle"
-                    onClick={toggleTheme}
-                    aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                    aria-pressed={theme === 'light'}
-                    data-active={theme}
-                  >
-                    <div className="nav__theme-toggle__track">
-                      <span className="nav__theme-toggle__icon" aria-hidden="true">🌙</span>
-                      <span className="nav__theme-toggle__icon" aria-hidden="true">☀️</span>
-                    </div>
-                    <span className="nav__theme-toggle__knob" />
-                  </button>
+                  {renderThemeToggle(true)}
                 </div>
 
-                <Link to="/contact" className="nav__consult nav__consult--block">
+                <Link
+                  to="/contact"
+                  className="nav__consult nav__consult--block"
+                >
                   Book ↗
                 </Link>
               </div>

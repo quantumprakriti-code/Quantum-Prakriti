@@ -56,7 +56,7 @@ export default function Footer() {
           <div className="footer__brand-col">
             <Link to="/" className="footer__brand">
               <img src={logo} alt="Q-Prakrithi logo" className="footer__logo" />
-              <span>Q-Prakrithi</span>
+              <span>Q-Prakriti</span>
             </Link>
 
             <p className="footer__tag">
@@ -98,7 +98,8 @@ export default function Footer() {
 
               <li>
                 <MapPin size={16} aria-hidden="true" />
-                <span>Office Address — 4th floor,Medha Hi-tech City,Sy.No.53,Kesarapalli,Gannavaram,Vijayawada,Andhra Pradesh 521102,India.</span>
+                <span>4th floor,Medha Hi-tech City,<br/>Kesarapalli,Gannavaram,Vijayawada,Andhra Pradesh 521102,India.</span>
+
               </li>
             </ul>
 

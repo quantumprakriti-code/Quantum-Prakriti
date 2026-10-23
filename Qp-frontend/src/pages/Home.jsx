@@ -14,7 +14,10 @@ import FlexCarousel from '../components/FlexCarousel.jsx';
 import '../styles/home.css';
 import quantumComputing from '../assets/quantumsafe.jpeg';
 import quantumSafe from '../assets/PQC.png';
+import PQC from '../assets/PQC.jpg';
+import QSafe from '../assets/Quantum_Safe_Security_Shield.png'
 import appliedResearch from '../assets/cryptography-photo.jpeg';
+import cbom from "../assets/cbom.png"
 import QC from "../assets/QC.jpeg"
 import CursorGrid from '../components/CursorGrid.jsx';
 import BlochCursor from '../components/BlochCursor.jsx';
@@ -222,22 +225,14 @@ const panelBg = (c1, c2) =>
   const serviceItems = [
     { icon: iconBadge(ShieldCheck), label: 'Quantum-Safe Security',
       description: 'Designing and evaluating systems for a post-quantum security posture.',
-      image: panelBg('#0c1630', '#1b3a8a') },
+      image:QSafe },
     { icon: iconBadge(Lock), label: 'Post-Quantum Cryptography',
       description: 'Exploring PQC standards including ML-KEM, ML-DSA, and SLH-DSA.',
-      image: panelBg('#101a3a', '#3b2f7a') },
+      image: PQC },
     { icon: iconBadge(ScanSearch), label: 'Cryptographic Inventory & CBOM',
       description: 'Structured discovery and documentation of cryptographic assets.',
-      image: panelBg('#0c1630', '#14607a') },
-    { icon: iconBadge(ShieldAlert), label: 'Security Assessment',
-      description: 'Reviewing systems for cryptographic risk and quantum-readiness.',
-      image: panelBg('#1a1a2e', '#6b4f12') },
-    { icon: iconBadge(Cpu), label: 'Software Development',
-      description: 'Building secure, modern software with a future-ready mindset.',
-      image: panelBg('#0c1630', '#2a4fb0') },
-    { icon: iconBadge(Atom), label: 'Emerging Technologies',
-      description: 'Investigating quantum and adjacent technologies for practical impact.',
-      image: panelBg('#12102e', '#5a2f8a') },
+      image: cbom },
+    
   ];
 export default function Home() {
   return (
@@ -379,7 +374,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* QUANTUM-SAFE CYBERSECURITY */}
      
 
       {/* SERVICES PREVIEW */}
@@ -432,7 +426,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-            {/* PARTNERS & CUSTOMERS */}
                   {/* PARTNERS & CUSTOMERS */}
       <section className="section section--blue">
         <div className="container">
