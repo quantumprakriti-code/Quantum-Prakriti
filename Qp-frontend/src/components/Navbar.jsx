@@ -11,8 +11,8 @@ import qprakritimark from './q-prakriti-mark.png';
 const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About Us' },
-  { to: '/services', label: 'Services' },
-  { to: '/team', label: 'Team' },
+  { to: '/services', label: 'PQC Readiness' },
+  // { to: '/team', label: 'Team' },
   { to: '/careers', label: 'Careers' },
   { to: '/contact', label: 'Contact Us' },
 ];

@@ -7,6 +7,7 @@
 
 /* ========= HERO ========= */
 .shero {
+  height: 100vh;
   position: relative;
   padding: 70px 0 90px;
   overflow: hidden;
@@ -47,6 +48,7 @@
   text-align: center;
   max-width: 900px;
   margin-inline: auto;
+  margin-top: 50px;
 }
 
 .shero__pill {
