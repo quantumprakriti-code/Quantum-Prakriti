@@ -70,6 +70,7 @@ function validate({ name, email, subject, message }) {
   return null;
 }
 
+
 app.post('/api/contact', limiter, async (req, res) => {
   try {
     const { name, organisation = '', email, message } = req.body || {};
@@ -90,17 +91,11 @@ app.post('/api/contact', limiter, async (req, res) => {
       return res.status(400).json({ error: 'Invalid organisation' });
     }
 
-    if (
-      !isValidString(email, 200) ||
-      !EMAIL_RE.test(email.trim())
-    ) {
+    if (!isValidString(email, 200) || !EMAIL_RE.test(email.trim())) {
       return res.status(400).json({ error: 'Invalid email' });
     }
 
-    if (
-      !isValidString(message, 5000) ||
-      message.trim().length < 10
-    ) {
+    if (!isValidString(message, 5000) || message.trim().length < 10) {
       return res.status(400).json({ error: 'Invalid message' });
     }
 
@@ -112,11 +107,11 @@ app.post('/api/contact', limiter, async (req, res) => {
       message: message.trim(),
     };
 
-    // 1. Encrypt and store the contact message.
+    // Encrypt and save the contact message.
     const record = encryptRecord(contactData, MLKEM_PUBLIC_KEY);
     await ContactMessage.create(record);
 
-    // 2. Send a notification email to the company.
+    // Send the notification email.
     try {
       const { data, error } = await resend.emails.send({
         from: FROM_EMAIL,
@@ -135,37 +130,42 @@ app.post('/api/contact', limiter, async (req, res) => {
         ].join('\n'),
       });
 
-      if (error) {
-        console.error('Resend error:', error);
+      console.log('Resend response:', {
+        emailId: data?.id,
+        error: error
+          ? { name: error.name, message: error.message }
+          : null,
+      });
+
+      if (error || !data?.id) {
+        console.error('Resend did not accept the email:', error);
 
         return res.status(201).json({
           success: true,
           saved: true,
           emailSent: false,
-          message: 'Message saved, but email notification failed.',
+          message: 'Your message was saved, but the email notification failed.',
         });
       }
-
-      console.log('Email notification sent:', data?.id);
 
       return res.status(201).json({
         success: true,
         saved: true,
         emailSent: true,
-        message: 'Message submitted successfully.',
+        message: 'Your message was submitted successfully.',
       });
     } catch (emailError) {
-      console.error('Email sending failed:', emailError.message);
+      console.error('Email sending failed:', emailError);
 
       return res.status(201).json({
         success: true,
         saved: true,
         emailSent: false,
-        message: 'Message saved, but email notification failed.',
+        message: 'Your message was saved, but the email notification failed.',
       });
     }
   } catch (err) {
-    console.error('Contact error:', err.message);
+    console.error('Contact error:', err);
 
     return res.status(500).json({
       success: false,
@@ -173,6 +173,7 @@ app.post('/api/contact', limiter, async (req, res) => {
     });
   }
 });
+
 
 
 
@@ -202,7 +203,7 @@ app.post("/api/booking-notify", express.json(), async (req, res) => {
 
     await resend.emails.send({
       from: "Q-Prakriti <noreply@qprakriti.com>", // Resend lo verify chesina domain avvali
-      to: ["quantumprakriti@gmail.com"],
+      to:"quantumprakriti@gmail.com",
       replyTo: inv.email,
       subject: `New demo booked: ${inv.name}`,
       html: `
