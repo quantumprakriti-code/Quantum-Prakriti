@@ -64,7 +64,16 @@
 
 .advisory__btn.advisory__btn--gold{
   margin-right: 10px;
-
+  background: var(--grad-gold);
+  color: black;
+  border-radius: 10px;
+  width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  gap: 5px;
+ 
 }
 .nav__icon-btn {
   width: 30px; height: 30px;
