@@ -33,7 +33,7 @@ if (
 const resend = new Resend(RESEND_API_KEY);
 
 const app = express();
-
+app.set('trust proxy', 1);
 const allowedOrigins = [
   "http://localhost:5173",
   "https://qprakriti.com",
