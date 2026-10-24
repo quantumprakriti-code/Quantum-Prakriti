@@ -8,6 +8,8 @@ import { encryptRecord } from './crypto.js';
 import { Resend } from 'resend';
 import ContactMessage from './model.js';
 
+
+
 const {
   PORT = 5000,
   MONGODB_URI,
@@ -28,13 +30,26 @@ if (
   console.error('Missing required environment variables in .env');
   process.exit(1);
 }
-
 const resend = new Resend(RESEND_API_KEY);
 
 const app = express();
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://qprakriti.com",
+  "https://www.qprakriti.com"
+];
+
 app.use(helmet());
-app.use(cors({ origin: CORS_ORIGIN, methods: ['POST'] }));
-app.use(express.json({ limit: '20kb' }));
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.use(express.json({ limit: "20kb" }));
+
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -186,8 +201,8 @@ app.post("/api/booking-notify", express.json(), async (req, res) => {
     });
 
     await resend.emails.send({
-      from: "Q-Prakriti <noreply@yourdomain.com>", // Resend lo verify chesina domain avvali
-      to: ["quantum-prakriti@gmail.com"],
+      from: "Q-Prakriti <noreply@qprakriti.com>", // Resend lo verify chesina domain avvali
+      to: ["quantumprakriti@gmail.com"],
       replyTo: inv.email,
       subject: `New demo booked: ${inv.name}`,
       html: `
