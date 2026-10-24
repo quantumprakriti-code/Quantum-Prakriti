@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import CursorGrid from '../components/CursorGrid';
 import {
   ChevronRight, ArrowUpRight, ArrowRight, Download, Lock, CheckCircle2,
   Cpu, Atom, ShieldCheck, Zap, Network, FlaskConical, Microscope,
@@ -345,11 +346,26 @@ export default function Services() {
 
       {/* ============ HERO ============ */}
       <section className="shero">
-        <div className="shero__bg" aria-hidden="true">
-          <div className="shero__grid" />
-          <div className="shero__glow shero__glow--blue" />
-          <div className="shero__glow shero__glow--gold" />
-        </div>
+      <div className="hero__bg" aria-hidden="true">
+  <CursorGrid
+  cellSize={60}
+  color="#D4AF37"
+  gridColor="#D4AF37"
+  highlight="area"
+  gridStyle="lines"
+  radius={100}        // was 140: smaller area around the cursor
+  holdTime={250}      // was 400: lit cells fade sooner
+  fadeDuration={600}  // was 800
+  fillOpacity={0.02}  // was 0.05: softer fill inside lit cells
+  maxOpacity={1.5}    // was 1: dimmer outline on lit cells
+  gridOpacity={0.07}
+  spotlight={0.25}    // was 0.6: less brightening of lines near the cursor
+  edgeFade={0.15}
+  clickPulse
+/>
+    <div className="hero__glow hero__glow--blue" />
+    <div className="hero__glow hero__glow--gold" />
+  </div>
 
         <div className="container shero__inner">
           <motion.span

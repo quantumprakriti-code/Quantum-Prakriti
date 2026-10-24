@@ -6,7 +6,6 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import QuantumLoader from './components/QuantumLoader.jsx';
-import CursorGrid from './components/CursorGrid.jsx';
 
 import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
@@ -117,7 +116,6 @@ export default function App() {
         `quantum-loader-handoff` event (fired by the loader).
       */}
       <Navbar />
-      
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route

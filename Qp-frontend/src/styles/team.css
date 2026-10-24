@@ -8,6 +8,7 @@
   position: relative;
   overflow: hidden;
   width: 500px;
+  backdrop-filter: blur(15px);
   
 }
 .grid.grid-2{

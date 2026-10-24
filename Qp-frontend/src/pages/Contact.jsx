@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-
+import CursorGrid from '../components/CursorGrid.jsx';
 import {
   Mail,
   MapPin,
@@ -155,6 +155,26 @@ export default function Contact() {
 
       {/* CONTACT SECTION */}
       <section className="section section--dark">
+      <div className="hero__bg" aria-hidden="true">
+  <CursorGrid
+  cellSize={60}
+  color="#D4AF37"
+  gridColor="#D4AF37"
+  highlight="area"
+  gridStyle="lines"
+  radius={100}        // was 140: smaller area around the cursor
+  holdTime={250}      // was 400: lit cells fade sooner
+  fadeDuration={600}  // was 800
+  fillOpacity={0.02}  // was 0.05: softer fill inside lit cells
+  maxOpacity={1.5}    // was 1: dimmer outline on lit cells
+  gridOpacity={0.07}
+  spotlight={0.25}    // was 0.6: less brightening of lines near the cursor
+  edgeFade={0.15}
+  clickPulse
+/>
+    <div className="hero__glow hero__glow--blue" />
+    <div className="hero__glow hero__glow--gold" />
+  </div>
         <div className="container contact-grid">
           {/* LEFT: CONTACT INFORMATION */}
           <motion.div
