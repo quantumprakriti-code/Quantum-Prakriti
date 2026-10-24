@@ -181,19 +181,87 @@ app.post('/api/contact', limiter, async (req, res) => {
 const calendly = (url) =>
   fetch(url, { headers: { Authorization: `Bearer ${process.env.CALENDLY_TOKEN}` } });
 
-app.post("/api/booking-notify", express.json(), async (req, res) => {
+app.post("/api/booking-notify", async (req, res) => {
   try {
-    const { inviteeUri } = req.body;
+    const { inviteeUri } = req.body || {};
 
-    // Calendly URL ye ani check chey
-    const u = new URL(inviteeUri);
-    if (u.protocol !== "https:" || u.hostname !== "api.calendly.com") {
-      return res.sendStatus(400);
+    if (!inviteeUri) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing Calendly invitee URI",
+      });
     }
 
-    // Calendly nundi name, email, time techchuko
-    const inv = (await (await calendly(inviteeUri)).json()).resource;
-    const ev = (await (await calendly(inv.event)).json()).resource;
+    // Validate the Calendly API URL.
+    const u = new URL(inviteeUri);
+
+    if (
+      u.protocol !== "https:" ||
+      u.hostname !== "api.calendly.com"
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Calendly invitee URL",
+      });
+    }
+
+    if (!process.env.CALENDLY_TOKEN) {
+      console.error("CALENDLY_TOKEN is missing");
+
+      return res.status(500).json({
+        success: false,
+        message: "Calendly configuration is missing",
+      });
+    }
+
+    // Fetch invitee details.
+    const inviteeResponse = await calendly(inviteeUri);
+
+    if (!inviteeResponse.ok) {
+      const details = await inviteeResponse.text();
+
+      console.error("Calendly invitee API failed:", {
+        status: inviteeResponse.status,
+        details,
+      });
+
+      return res.status(502).json({
+        success: false,
+        message: "Unable to retrieve booking details",
+      });
+    }
+
+    const invData = await inviteeResponse.json();
+    const inv = invData.resource;
+
+    if (!inv?.event || !inv?.email) {
+      console.error("Calendly response is missing booking details");
+
+      return res.status(502).json({
+        success: false,
+        message: "Incomplete Calendly booking details",
+      });
+    }
+
+    // Fetch event details.
+    const eventResponse = await calendly(inv.event);
+
+    if (!eventResponse.ok) {
+      const details = await eventResponse.text();
+
+      console.error("Calendly event API failed:", {
+        status: eventResponse.status,
+        details,
+      });
+
+      return res.status(502).json({
+        success: false,
+        message: "Unable to retrieve event details",
+      });
+    }
+
+    const eventData = await eventResponse.json();
+    const ev = eventData.resource;
 
     const when = new Date(ev.start_time).toLocaleString("en-IN", {
       timeZone: "Asia/Kolkata",
@@ -201,24 +269,54 @@ app.post("/api/booking-notify", express.json(), async (req, res) => {
       timeStyle: "short",
     });
 
-    await resend.emails.send({
-      from: "Q-Prakriti <noreply@qprakriti.com>", // Resend lo verify chesina domain avvali
-      to:"quantumprakriti@gmail.com",
+    // Send booking notification to the company.
+    const { data, error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: [COMPANY_EMAIL],
       replyTo: inv.email,
       subject: `New demo booked: ${inv.name}`,
-      html: `
-        <p><b>Name:</b> ${inv.name}</p>
-        <p><b>Email:</b> ${inv.email}</p>
-        <p><b>Time (IST):</b> ${when}</p>
-      `,
+      text: [
+        "A new Q-Prakriti demo has been booked.",
+        "",
+        `Name: ${inv.name}`,
+        `Email: ${inv.email}`,
+        `Time (IST): ${when}`,
+      ].join("\n"),
     });
 
-    res.sendStatus(200);
+    console.log("Calendly notification email result:", {
+      emailId: data?.id ?? null,
+      error: error
+        ? {
+            name: error.name,
+            message: error.message,
+          }
+        : null,
+    });
+
+    if (error || !data?.id) {
+      return res.status(502).json({
+        success: false,
+        emailSent: false,
+        message: "Booking retrieved, but notification email failed",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      emailSent: true,
+      emailId: data.id,
+    });
   } catch (err) {
     console.error("booking-notify error:", err);
-    res.sendStatus(500);
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to process booking notification",
+    });
   }
 });
+
 mongoose
   .connect(MONGODB_URI)
   .then(() => {
