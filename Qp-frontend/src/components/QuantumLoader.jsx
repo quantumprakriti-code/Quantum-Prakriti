@@ -7,7 +7,8 @@ import logoP from './lm-p.png';
 import logoOrbits from './lm-orbits.png';
 
 /* ============================================================
-   QUANTUM LOADER v23 — staged logo assembly, tilt, glint, flare
+   QUANTUM LOADER v24 — staged logo assembly, glint, flare
+   (no cursor / hover interaction — visuals stay clean)
    ------------------------------------------------------------
      <QuantumLoader onComplete={fn} targetSelector="#quantum-slot" />
      dispatches window event "quantum-loader-handoff"
@@ -20,7 +21,7 @@ import logoOrbits from './lm-orbits.png';
    4100   ASSEMBLE: particles lock into the gold quantum computer
    4800   loader fades out
 
-   Esc / Enter / Skip button jumps ahead.
+   Esc / Enter jumps ahead.
    ============================================================ */
 
 const BRAND = 'Q-PRAKRITI';
@@ -34,7 +35,7 @@ const EXIT_AT = 4800;
 
 const TRACK = 0.04;
 const SHIFT = 0.3;
-const NUDGE = 0.0; 
+const NUDGE = 0.0;
 
 // 0 gold, 1 cyan, 2 white-blue
 const RGB = ['255,240,220', '96,226,255', '214,232,255'];
@@ -162,15 +163,15 @@ function genComputer(n) {
    2  orange body sweeps in (clockwise)
    3  white "p" rises through the body
    4  atom orbits draw around, a light runs along them
-   5  idle: glass sheen + mouse tilt/parallax
+   5  idle: glass sheen
    ------------------------------------------------------------ */
 const ease = [0.16, 1, 0.3, 1];
 
-function LogoMark({ on, tiltRef }) {
+function LogoMark({ on }) {
   const maskStyle = { WebkitMaskImage: `url(${logoMark})`, maskImage: `url(${logoMark})` };
   const orbitMask = { WebkitMaskImage: `url(${logoOrbits})`, maskImage: `url(${logoOrbits})` };
   return (
-    <div ref={tiltRef} className={`lm${on ? ' is-on' : ''}`}>
+    <div className={`lm${on ? ' is-on' : ''}`}>
       <span className="lm-glow" aria-hidden="true" />
       <span className="lm-ring" aria-hidden="true" />
       <span className="lm-ring lm-ring-2" aria-hidden="true" />
@@ -196,11 +197,8 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
   const rootRef = useRef(null);
   const camRef = useRef(null);
   const canvasRef = useRef(null);
-  const cursorRef = useRef(null);
-  const tiltRef = useRef(null);
 
-  const mouse = useRef({ x: -9999, y: -9999, on: false });
-  const waves = useRef([]);
+  const waves = useRef([]); // only the automatic assemble ring
   const skipFn = useRef(() => {});
   const timers = useRef([]);
 
@@ -381,7 +379,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       const t = (now - start) / 1000;
-      const M = mouse.current;
 
       if (!fired.mark && now >= T.mark) { fired.mark = true; setMarkIn(true); }
       if (!fired.brand && now >= T.brand) { fired.brand = true; setBrandIn(true); }
@@ -390,7 +387,7 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
         fired.assemble = true;
         setAssembled(true);
         window.dispatchEvent(new CustomEvent('quantum-loader-handoff'));
-        waves.current.push({ x: slot.x, y: slot.y, t0: now, vis: true });
+        waves.current.push({ x: slot.x, y: slot.y, t0: now });
       }
       if (!fired.exit && now >= T.exit) { fired.exit = true; setFinished(true); }
 
@@ -398,7 +395,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
       const asmT = fired.assemble ? (now - T.assemble) / 1000 : -1;
 
       if (fired.shatter) measureSlot();
-
 
       let scale = 1;
       let sx = 0;
@@ -428,8 +424,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
 
       const cx = W / 2;
       const cy = H / 2;
-      const R = W < 700 ? 90 : 130;
-      const near = [];
 
       for (let i = 0; i < parts.length; i++) {
         const p = parts[i];
@@ -478,36 +472,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
           ay += (p.x - scx) * swirl;
         }
 
-        if (M.on) {
-          const dx = p.x - M.x;
-          const dy = p.y - M.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < R * R * 1.9) {
-            const d = Math.sqrt(d2) || 1;
-            if (d < R) {
-              const f = (1 - d / R) * (1 - d / R) * 14000;
-              ax += (dx / d) * f;
-              ay += (dy / d) * f;
-            }
-            if (d < R * 1.35 && near.length < 34) near.push(p);
-          }
-        }
-        for (let w = 0; w < waves.current.length; w++) {
-          const wv = waves.current[w];
-          if (wv.vis) continue;
-          const age = Math.max(0, (now - wv.t0) / 1000);
-          const rad = age * 760;
-          const dx = p.x - wv.x;
-          const dy = p.y - wv.y;
-          const d = Math.sqrt(dx * dx + dy * dy) || 1;
-          const band = Math.abs(d - rad);
-          if (band < 46) {
-            const f = (1 - band / 46) * (1 - age / 1.1) * 26000;
-            ax += (dx / d) * f;
-            ay += (dy / d) * f;
-          }
-        }
-
         p.vx += ax * dt;
         p.vy += ay * dt;
         p.x += p.vx * dt;
@@ -530,8 +494,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
         ctx.fillRect(slot.x - gr, slot.y - gr, gr * 2, gr * 2);
       }
 
-      const px = M.on ? (M.x / W - 0.5) * 18 : 0;
-      const py = M.on ? (M.y / H - 0.5) * 18 : 0;
       ctx.fillStyle = `rgba(${GOLD},1)`;
       for (let i = 0; i < dust.length; i++) {
         const d = dust[i];
@@ -539,31 +501,17 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
         d.x += Math.sin(t * 0.4 + d.p) * 3 * dt;
         if (d.y < -4) { d.y = H + 4; d.x = Math.random() * W; }
         ctx.globalAlpha = 0.1 + 0.22 * Math.abs(Math.sin(t * d.z + d.p));
-        ctx.fillRect(d.x - px * d.z, d.y - py * d.z, d.s, d.s);
+        ctx.fillRect(d.x, d.y, d.s, d.s);
       }
 
-      if (M.on && near.length) {
-        ctx.lineWidth = 1;
-        for (let i = 0; i < near.length; i++) {
-          const p = near[i];
-          const d = Math.hypot(p.x - M.x, p.y - M.y);
-          ctx.strokeStyle = `rgba(${CYAN},${(0.55 * (1 - d / (R * 1.35))).toFixed(3)})`;
-          ctx.globalAlpha = 1;
-          ctx.beginPath();
-          ctx.moveTo(M.x, M.y);
-          ctx.lineTo(p.x, p.y);
-          ctx.stroke();
-        }
-      }
-
+      // assemble ring (automatic, not interactive)
       for (let w = 0; w < waves.current.length; w++) {
         const wv = waves.current[w];
         const age = Math.max(0, (now - wv.t0) / 1000);
-        const rad = wv.vis ? age * 520 : age * 760;
-        const life = wv.vis ? 1.3 : 1.1;
-        ctx.globalAlpha = Math.max(0, (wv.vis ? 0.8 : 0.55) * (1 - age / life));
-        ctx.strokeStyle = `rgba(${wv.vis ? CYAN : GOLD},1)`;
-        ctx.lineWidth = wv.vis ? 2 : 1.4;
+        const rad = age * 520;
+        ctx.globalAlpha = Math.max(0, 0.8 * (1 - age / 1.3));
+        ctx.strokeStyle = `rgba(${CYAN},1)`;
+        ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(wv.x, wv.y, rad, 0, TAU);
         ctx.stroke();
@@ -658,41 +606,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
     };
   }, [reduce, targetSelector]);
 
-  /* ---------- pointer handlers ---------- */
-  const onPointerMove = (e) => {
-    mouse.current.x = e.clientX;
-    mouse.current.y = e.clientY;
-    mouse.current.on = true;
-    if (cursorRef.current) {
-      cursorRef.current.style.opacity = '1';
-      cursorRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-    }
-    if (tiltRef.current) {
-      tiltRef.current.style.setProperty('--tx', ((e.clientX / window.innerWidth - 0.5) * 2).toFixed(3));
-      tiltRef.current.style.setProperty('--ty', ((e.clientY / window.innerHeight - 0.5) * 2).toFixed(3));
-    }
-  };
-  const onPointerLeave = () => {
-    mouse.current.on = false;
-    if (cursorRef.current) cursorRef.current.style.opacity = '0';
-    if (tiltRef.current) {
-      tiltRef.current.style.setProperty('--tx', '0');
-      tiltRef.current.style.setProperty('--ty', '0');
-    }
-  };
-  const onPointerDown = (e) => {
-    mouse.current.x = e.clientX;
-    mouse.current.y = e.clientY;
-    mouse.current.on = true;
-    waves.current.push({ x: e.clientX, y: e.clientY, t0: performance.now() });
-    if (waves.current.length > 6) waves.current.shift();
-    if (cursorRef.current) {
-      cursorRef.current.classList.remove('is-pulse');
-      void cursorRef.current.offsetWidth;
-      cursorRef.current.classList.add('is-pulse');
-    }
-  };
-
   return (
     <AnimatePresence mode="wait" onExitComplete={onComplete}>
       {!finished && (
@@ -702,9 +615,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
           className="quantum-loader"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.7, ease: 'easeInOut' } }}
-          onPointerMove={onPointerMove}
-          onPointerLeave={onPointerLeave}
-          onPointerDown={onPointerDown}
           role="status"
           aria-label="Loading Q-Prakriti"
         >
@@ -734,7 +644,7 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
                   animate={shatter ? { opacity: 0, scale: 1.5 } : markIn ? { opacity: 1, scale: 1 } : {}}
                   transition={shatter ? { duration: 0.7, ease: [0.7, 0, 0.84, 0] } : { duration: 1.2, ease }}
                 >
-                  <LogoMark on={markIn} tiltRef={tiltRef} />
+                  <LogoMark on={markIn} />
                 </motion.div>
 
                 {/* wordmark */}
@@ -768,8 +678,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
                     transition={{ duration: 1.1, delay: 0.7, ease: 'easeInOut', repeat: 1, repeatDelay: 0.5 }}
                   />
                 </h1>
-
-
               </div>
             </div>
           </div>
@@ -790,11 +698,6 @@ export default function QuantumLoader({ onComplete, targetSelector }) {
             transition={{ duration: 1.2, ease }}
             aria-hidden="true"
           />
-
-
-
-
-          <div ref={cursorRef} className="loader-cursor" aria-hidden="true" />
         </motion.div>
       )}
     </AnimatePresence>

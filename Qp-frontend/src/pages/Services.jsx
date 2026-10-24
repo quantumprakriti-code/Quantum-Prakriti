@@ -268,6 +268,7 @@ function ServiceTile({ s, i, variant, height = 310 }) {
 
   return (
     <motion.div {...fadeUp} transition={{ duration: 0.5, delay: i * 0.06 }}>
+      
       <TiltedCard
         className="svc-tilt"
         imageSrc={s.image}
