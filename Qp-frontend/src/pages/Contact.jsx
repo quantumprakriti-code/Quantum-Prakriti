@@ -53,6 +53,8 @@ const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 async function sendMessage(data) {
+  console.log(data);
+  
   const response = await fetch(`${API_BASE_URL}/api/contact`, {
     method: 'POST',
     headers: {
