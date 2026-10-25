@@ -66,7 +66,7 @@ export default function About() {
             transition={{ duration: 0.5 }}
           >
             <span className="ahero__pill-dot" />
-            ABOUT Q-PRAKRITHI · EST. 2026
+            ABOUT Q-PRAKRITI · EST. 2026
           </motion.span>
 
           <motion.h1
@@ -89,7 +89,7 @@ export default function About() {
             transition={{ duration: 0.65, delay: 0.15 }}
           >
             Bridging the eternal balance of natural synergy{" "}
-            <em className="ahero__em">(Prakrithi)</em> with quantum
+            <em className="ahero__em">(Prakriti)</em> with quantum
             computational breakthroughs. We engineer sovereign fault-tolerant
             hardware and algorithms optimized for planetary equilibrium.
           </motion.p>
@@ -142,10 +142,6 @@ export default function About() {
               post-quantum world.
             </p>
             <p className="muted">
-              <em>
-                Placeholder copy — to be replaced with the official company
-                description.
-              </em>
             </p>
           </motion.div>
 
@@ -167,7 +163,7 @@ export default function About() {
                 digital infrastructure advance together responsibly.
               </p>
               <span className="about-card__note">
-                Placeholder — pending official vision statement.
+        
               </span>
             </motion.article>
             <motion.article className="about-card" {...fade}>
@@ -179,7 +175,7 @@ export default function About() {
                 care.
               </p>
               <span className="about-card__note">
-                Placeholder — pending official mission statement.
+                
               </span>
             </motion.article>
           </div>
