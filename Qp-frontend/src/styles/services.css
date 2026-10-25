@@ -700,4 +700,29 @@
   [data-theme="light"] .pqc-mosca__verdict { color: #b53a3a; }
   [data-theme="light"] .pqc-clock__ring { stroke: rgba(168, 134, 42, 0.3); }
   [data-theme="light"] .pqc-clock__tick { stroke: rgba(168, 134, 42, 0.4); }
-  
+  /* The main side-by-side container */
+.hndl-section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4rem;
+  width: 100%;
+  position: relative;
+  /* Ensure no overflow or transform here */
+}
+
+/* The left text column */
+.hndl-section__text {
+  flex: 0 0 42%;
+  position: sticky;
+  top: 25vh; /* Sticks 25% from the top */
+  height: fit-content;
+}
+
+/* The right animation column */
+.hndl-section__anim {
+  flex: 1;
+  position: relative;
+  min-width: 0;
+}

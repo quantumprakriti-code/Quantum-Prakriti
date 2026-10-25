@@ -1,0 +1,284 @@
+/* src/components/secureConnection.css */
+
+.qp-story {
+  position: relative;
+  width: 100%;
+  /* Remove any margins or padding that might break sticky */
+  margin: 0;
+  padding: 0;
+}
+
+.qp-story__track {
+  position: relative;
+  width: 100%;
+  height: 400vh;
+}
+
+.qp-story__canvas {
+  position: sticky;
+  top: 0; /* Pins the animation to the top of the viewport */
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  pointer-events: none;
+  background: transparent;
+  /* Remove transform: translateY if you still have it */
+}
+
+.qp-story__canvas canvas {
+  background: transparent !important;
+}
+
+/* ---------- Sticky section header above the animation ---------- */
+.qp-story__header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 2.25rem 2rem 1.75rem;
+  text-align: center;
+
+  background: linear-gradient(
+    180deg,
+    var(--black, #04060B) 0%,
+    rgba(4, 6, 11, 0.92) 70%,
+    rgba(4, 6, 11, 0) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.qp-story__header .eyebrow {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.qp-story__header h2 {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--white, #ffffff);
+  margin: 0 0 0.75rem 0;
+}
+
+.qp-story__lead {
+  font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+  font-size: clamp(0.85rem, 1.15vw, 1rem);
+  line-height: 1.55;
+  color: var(--text-secondary, #B8C0D0);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ---------- Overlay & Captions ---------- */
+.qp-story__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qp-story__caption {
+  position: absolute;
+  max-width: 460px;
+  padding: 22px 26px 22px 28px;
+  background: var(--grad-card,
+    linear-gradient(160deg, rgba(15, 30, 66, 0.55) 0%, rgba(7, 11, 20, 0.88) 100%));
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: var(--radius-md, 14px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  transition: opacity 0.35s ease;
+  color: var(--white, #fff);
+  will-change: opacity;
+}
+
+.qp-story__caption::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold, #d4af37), transparent);
+}
+
+.qp-story__caption--bottom {
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.qp-story__caption--secure {
+  border-color: rgba(212, 175, 55, 0.38);
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(212, 175, 55, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+.qp-story__caption--secure::before {
+  background: linear-gradient(180deg, transparent, var(--gold-soft, #e8c766), transparent);
+}
+
+.qp-story__eyebrow {
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold, #d4af37);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.qp-story__caption--secure .qp-story__eyebrow {
+  color: var(--gold-soft, #e8c766);
+}
+
+.qp-story__title {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 25px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.01em;
+  color: var(--white, #f0f6ff);
+}
+
+.qp-story__body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary, #b8c0d0);
+  margin: 0;
+}
+
+/* ---------- Final Overlay ---------- */
+.qp-story__final {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: radial-gradient(
+    circle at center,
+    rgba(4, 6, 11, 0.6) 0%,
+    rgba(4, 6, 11, 0.94) 70%
+  );
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+.qp-story__final--visible { opacity: 1; }
+
+.qp-story__brand {
+  font-family: var(--font-display, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  background: var(--grad-gold,
+    linear-gradient(135deg, #e8c766 0%, #d4af37 45%, #a8862a 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 18px;
+}
+
+.qp-story__tagline {
+  font-size: 20px;
+  color: var(--text-secondary, #c8ddf5);
+  font-weight: 400;
+}
+
+.qp-story__divider {
+  width: 80px;
+  height: 2px;
+  margin: 22px auto;
+  background: linear-gradient(90deg, transparent, var(--gold, #d4af37), transparent);
+}
+
+/* ---------- Progress Dots ---------- */
+.qp-story__progress {
+  position: fixed;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.qp-story__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.22);
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.qp-story__dot--active {
+  background: var(--gold, #d4af37);
+  box-shadow: 0 0 12px var(--gold, #d4af37);
+  transform: scale(1.4);
+}
+
+/* ---------- Fallback ---------- */
+.qp-story__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  text-align: center;
+  color: var(--text-secondary, #a8bfdc);
+}
+
+@media (max-width: 768px) {
+  .qp-story__track { height: 350vh; }
+  
+  .qp-story__canvas {
+    /* Slightly less offset on mobile to avoid clipping */
+    transform: translateY(4vh); 
+  }
+
+  .qp-story__header {
+    padding: 1.5rem 1rem 1rem;
+  }
+  .qp-story__header h2 {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+  }
+  .qp-story__lead {
+    font-size: 0.85rem;
+  }
+
+  .qp-story__caption { 
+    max-width: 88%; 
+    padding: 18px 20px; 
+    bottom: 6%;
+  }
+  .qp-story__title { font-size: 20px; }
+  .qp-story__body { font-size: 13px; }
+  .qp-story__brand { font-size: 30px; }
+  .qp-story__tagline { font-size: 15px; }
+  .qp-story__progress { display: none; }
+}

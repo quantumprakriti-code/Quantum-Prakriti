@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import "../styles/services.css";
 import PqcSection from "../components/PqcSection.jsx";
+import SecureConnection from "../components/secureConnection.jsx";
 /* ================= DATA ================= */
 
 // FIPS 203 (ML-KEM) was finalised on 13 Aug 2024
@@ -409,20 +410,29 @@ export default function PQCReadiness() {
       {/* ============ 01 — THE QUANTUM THREAT ============ */}
       <section className="pqc-sec">
         <div className="container">
-          <SectionHead eyebrow="01 / THE QUANTUM THREAT">
-            Harvest now.
-            <br />
-            <span className="text-gradient-gold">Decrypt later.</span>
-          </SectionHead>
+        <div className="hndl-section">
+  {/* Left Side: Sticky Text */}
+  <div className="hndl-section__text">
+    <SectionHead eyebrow="01 / THE QUANTUM THREAT">
+      Harvest now.
+      <br />
+      <span className="text-gradient-gold">Decrypt later.</span>
+    </SectionHead>
 
-          <motion.p className="pqc-prose" {...fadeUp}>
-            A quantum computer that breaks RSA won't arrive announced — and it
-            doesn't need to. Encrypted data captured today is being stored in
-            bulk, waiting for the machine that can open it. Email, archives,
-            financial records, state secrets: anything that must stay
-            confidential for years is already exposed.
-          </motion.p>
+    <motion.p className="pqc-prose" {...fadeUp}>
+      A quantum computer that breaks RSA won't arrive announced — and it
+      doesn't need to. Encrypted data captured today is being stored in
+      bulk, waiting for the machine that can open it. Email, archives,
+      financial records, state secrets: anything that must stay
+      confidential for years is already exposed.
+    </motion.p>
+  </div>
 
+  {/* Right Side: The Animation */}
+  <div className="hndl-section__anim">
+    <SecureConnection />
+  </div>
+</div>
           <motion.div className="pqc-mosca" {...fadeUp}>
             <span className="pqc-mosca__label">
               MOSCA'S INEQUALITY — WHEN TO START WORRYING
