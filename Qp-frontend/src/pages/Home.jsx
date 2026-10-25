@@ -292,8 +292,7 @@ export default function Home() {
               Future
             </h1>
             <p className="hero__lead">
-              Exploring quantum technologies and advancing secure, resilient digital
-              infrastructure for the next generation.
+              Enabling organisations to prepare for tomorrow’s quantum-driven security challenges.
             </p>
             <div className="hero__actions">
               <Link to="/services" className="btn btn--gold btn--lg">
@@ -328,7 +327,7 @@ export default function Home() {
               shaped by quantum innovation.
             </p>
             <p className="intro__note">
-              <em>Content note: this section is placeholder copy and will be updated with the official company description.</em>
+              
             </p>
             <Link to="/about" className="btn btn--blue btn--md">
               Learn More About Us <ArrowRight size={16} className="btn__icon" />
