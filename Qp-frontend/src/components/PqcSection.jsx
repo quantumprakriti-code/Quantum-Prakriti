@@ -169,12 +169,12 @@ export default function PqcSection() {
     <section ref={rootRef} className={`pqc${intro ? " is-in" : ""}`}>
       <div className="pqc-wrap">
         <h2 className="pqc-h1">
-        Preparing cryptography for a post-quantum world
+        Preparing cryptography for a<br/> post-quantum world
         </h2>
         <p className="pqc-lede">
-          Quantum computing and post-quantum cryptography are related but distinct fields.
-          Post-quantum cryptography refers to cryptographic algorithms designed to remain secure
-          against attacks from both classical and future quantum computers.
+          Quantum computing and post-quantum cryptography are<br/> related but distinct fields.
+          Post-quantum cryptography refers to cryptographic algorithms <br/>designed to remain secure
+          against attacks from both classical and future <br/>quantum computers.
         </p>
 
         {/* Steps on the left, animation on the right */}

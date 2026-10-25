@@ -17,8 +17,7 @@ const socialLinks = [
   { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/' },
   { name: 'X', icon: 'x', url: 'https://x.com/' },
   { name: 'GitHub', icon: 'github', url: 'https://github.com/' },
-  { name: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/' },
-  { name: 'YouTube', icon: 'youtube', url: 'https://www.youtube.com/' },
+  
 ];
 const icons = {
   linkedin: (

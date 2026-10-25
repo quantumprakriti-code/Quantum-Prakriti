@@ -44,8 +44,7 @@ const socialLinks = [
   { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/' },
   { name: 'X', icon: 'x', url: 'https://x.com/' },
   { name: 'GitHub', icon: 'github', url: 'https://github.com/' },
-  { name: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/' },
-  { name: 'YouTube', icon: 'youtube', url: 'https://www.youtube.com/' },
+  
 ];
 
 export default function Footer() {
@@ -129,14 +128,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="footer__base">
-          <span>
-            © {new Date().getFullYear()} Q-Prakriti Private Limited. All rights
-            reserved.
-          </span>
-
-          
-        </div>
+        
       </div>
     </footer>
   );

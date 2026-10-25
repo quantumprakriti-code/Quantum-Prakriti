@@ -3,7 +3,7 @@
    (--gold, --white, --text-secondary, --text-muted,
    --grad-gold, --space-*, --dur, --ease, --font-display)
    ===================================================== */
-
+   @import url('https://fonts.googleapis.com/css2?family=Charis+SIL:ital,wght@0,400;0,700;1,400;1,700&family=Comfortaa:wght@300..700&family=Edu+NSW+ACT+Cursive:wght@400..700&family=Indie+Flower&family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Libre+Caslon+Condensed:ital,wght@0,400..700;1,400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Sedan:ital@0;1&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
    :root {
     --pqc-blue: #9ab4ff;
     --pqc-blue-rgb: 79, 127, 255;
@@ -43,6 +43,10 @@
   }
   .pqc-hero__copy { 
     min-width: 100%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     
   }
   
@@ -73,6 +77,8 @@
   }
   
   .pqc-hero__title {
+    font-family: "Libre Bodoni",serif;
+    text-align: center;
     font-size: clamp(2.3rem, 5.4vw, 4.2rem);
     line-height: 1.04;
     letter-spacing: -0.03em;
@@ -80,18 +86,27 @@
     font-weight: 700;
     margin: 0 0 var(--space-5);
   }
+  
   .pqc-hero__lead {
     font-size: 1rem;
-    max-width: 560px;
+    max-width: 660px;
     color: var(--text-secondary);
     line-height: 1.7;
     margin: 0 0 var(--space-6);
+    text-align: center;
   }
   .pqc-hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 14px;
     margin-bottom: var(--space-7);
+  }
+  .pqc-hero__heading {
+    width: min(100%, 980px);
+    margin: 0 auto var(--space-5);
+  }
+  .pqc-hero__heading .pqc-hero__title {
+    margin: 0;
   }
   
   /* Buttons (shared) */
@@ -234,10 +249,13 @@
   }
   .pqc-sec--last { padding-bottom: var(--space-10); }
   
-  .pqc-head { margin-bottom: var(--space-7); max-width: 760px; }
+  .pqc-head { margin-bottom: var(--space-7); max-width: 100%; }
   .pqc-eyebrow {
+    width: 100%;
+    text-align: center;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     font-family: var(--pqc-mono);
     font-size: 0.66rem;
@@ -253,6 +271,7 @@
     animation: pqcBlink 2s ease-in-out infinite;
   }
   .pqc-title {
+    text-align: center;
     font-size: clamp(2rem, 4.4vw, 3.2rem);
     line-height: 1.08;
     letter-spacing: -0.03em;
@@ -261,6 +280,8 @@
     margin: 0;
   }
   .pqc-lead {
+    min-width: 100%;
+    text-align: center;
     margin: var(--space-5) 0 0;
     max-width: 600px;
     font-size: 0.95rem;
@@ -362,6 +383,7 @@
   }
   .pqc-tl__track,
   .pqc-tl__progress {
+    
     position: absolute;
     top: 8px;
     left: var(--tl-year);
@@ -510,7 +532,7 @@
   }
   
   /* ========= ROADMAP ACCORDION ========= */
-  .pqc-acc { max-width: 900px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+  .pqc-acc { max-width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.08); }
   .pqc-acc__row { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
   .pqc-acc__btn {
     width: 100%;
@@ -531,7 +553,7 @@
     color: var(--text-muted);
   }
   .pqc-acc__name {
-    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    font-size: clamp(1rem, 2vw, 1.3rem);
     font-weight: 600;
     letter-spacing: -0.02em;
     transition: color var(--dur-fast) var(--ease);
@@ -581,7 +603,13 @@
     transform: translateX(-50%);
     background: linear-gradient(90deg, transparent, rgba(var(--pqc-gold-rgb), 0.5), transparent);
   }
-  .pqc-check { padding: var(--space-8) var(--space-7); }
+  .pqc-check { 
+    padding: var(--space-8) var(--space-7); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .pqc-check__title,
   .pqc-final__title {
     margin: 0 0 var(--space-5);

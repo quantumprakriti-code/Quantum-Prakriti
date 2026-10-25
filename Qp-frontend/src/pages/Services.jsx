@@ -1,7 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import { Link } from "react-router-dom";
 import LetterGlitch from "../components/LetterGlitch.jsx";
+
 import {
   ArrowRight,
   ArrowUpRight,
@@ -22,7 +28,11 @@ const FIPS_FINAL = new Date("2024-08-13T00:00:00Z").getTime();
 const threatFacts = [
   { k: "X", t: "How long your data must stay secret", tone: "plain" },
   { k: "Y", t: "How long your migration will take", tone: "plain" },
-  { k: "Z", t: "Time until a quantum computer can break your keys", tone: "gold" },
+  {
+    k: "Z",
+    t: "Time until a quantum computer can break your keys",
+    tone: "gold",
+  },
 ];
 
 const timeline = [
@@ -134,7 +144,12 @@ const phases = [
   },
 ];
 
-const checkChips = ["8 QUESTIONS", "~2 MINUTES", "INSTANT SCORE", "REPORT BY EMAIL"];
+const checkChips = [
+  "8 QUESTIONS",
+  "~2 MINUTES",
+  "INSTANT SCORE",
+  "REPORT BY EMAIL",
+];
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -149,7 +164,7 @@ function SectionHead({ eyebrow, children, lead }) {
   return (
     <motion.div className="pqc-head" {...fadeUp}>
       <span className="pqc-eyebrow">
-        <span className="pqc-eyebrow__dot" /> {eyebrow}
+        {eyebrow}
       </span>
       <h2 className="pqc-title">{children}</h2>
       {lead && <p className="pqc-lead">{lead}</p>}
@@ -176,7 +191,10 @@ function useElapsed() {
 function QuantumClock() {
   const ticks = Array.from({ length: 60 }, (_, i) => i);
   return (
-    <figure className="pqc-clock" aria-label="Estimated CRQC window, 2030 to 2040">
+    <figure
+      className="pqc-clock"
+      aria-label="Estimated CRQC window, 2030 to 2040"
+    >
       <svg viewBox="-200 -200 400 400" role="img" aria-hidden="true">
         <circle className="pqc-clock__ring" r="170" />
         <circle className="pqc-clock__ring pqc-clock__ring--dash" r="130" />
@@ -186,7 +204,11 @@ function QuantumClock() {
           return (
             <line
               key={i}
-              className={major ? "pqc-clock__tick pqc-clock__tick--major" : "pqc-clock__tick"}
+              className={
+                major
+                  ? "pqc-clock__tick pqc-clock__tick--major"
+                  : "pqc-clock__tick"
+              }
               x1="0"
               y1={-170}
               x2="0"
@@ -206,11 +228,19 @@ function QuantumClock() {
         </g>
         <circle className="pqc-clock__hub" r="9" />
         <circle className="pqc-clock__hub-dot" r="3" />
-        <text x="178" y="4" className="pqc-clock__year">2030</text>
-        <text x="0" y="196" textAnchor="middle" className="pqc-clock__year">2035</text>
-        <text x="-178" y="4" textAnchor="end" className="pqc-clock__year">2040</text>
+        <text x="178" y="4" className="pqc-clock__year">
+          2030
+        </text>
+        <text x="0" y="196" textAnchor="middle" className="pqc-clock__year">
+          2035
+        </text>
+        <text x="-178" y="4" textAnchor="end" className="pqc-clock__year">
+          2040
+        </text>
       </svg>
-      <figcaption>FIG. 01 — THE QUANTUM CLOCK · EST. CRQC WINDOW 2030–2040</figcaption>
+      <figcaption>
+        FIG. 01 — THE QUANTUM CLOCK · EST. CRQC WINDOW 2030–2040
+      </figcaption>
     </figure>
   );
 }
@@ -228,7 +258,11 @@ function QuantumTimeline() {
   return (
     <div className="pqc-tl" ref={ref}>
       <div className="pqc-tl__track" aria-hidden="true" />
-      <motion.div className="pqc-tl__progress" style={{ height: progress }} aria-hidden="true" />
+      <motion.div
+        className="pqc-tl__progress"
+        style={{ height: progress }}
+        aria-hidden="true"
+      />
 
       {timeline.map((t, i) => (
         <motion.div
@@ -237,7 +271,11 @@ function QuantumTimeline() {
           initial={{ opacity: 0, y: 36 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+          transition={{
+            duration: 0.6,
+            delay: i * 0.04,
+            ease: [0.22, 1, 0.36, 1],
+          }}
         >
           <div className="pqc-tl__year">{t.year}</div>
           <span className="pqc-tl__dot" aria-hidden="true" />
@@ -347,7 +385,7 @@ export default function PQCReadiness() {
               <br />
               Cryptography
               <br />
-              <span className="text-gradient-gold">READINESS.</span>
+              <span className="text-gradient-gold" style={{fontStyle : "italic"}}>READINESS.</span>
             </motion.h1>
 
             <motion.p
@@ -356,9 +394,9 @@ export default function PQCReadiness() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
             >
-              Quantum computers will break the public-key cryptography protecting
-              the world's data. Q-Prakriti helps you discover what you use,
-              assess your exposure, and migrate to NIST-standardised
+              Quantum computers will break the public-key<br/> cryptography
+              protecting the world's data. Q-Prakriti helps you discover<br/> what
+              you use, assess your exposure, and migrate to NIST-standardised
               post-quantum cryptography — before the clock runs out.
             </motion.p>
             <motion.div
@@ -400,39 +438,39 @@ export default function PQCReadiness() {
               </div>
             </motion.div>
           </div>
-
-         
         </div>
 
-        <span className="pqc-scrollhint" aria-hidden="true">SCROLL</span>
+        <span className="pqc-scrollhint" aria-hidden="true">
+          SCROLL
+        </span>
       </section>
 
       {/* ============ 01 — THE QUANTUM THREAT ============ */}
       <section className="pqc-sec">
         <div className="container">
-        <div className="hndl-section">
-  {/* Left Side: Sticky Text */}
-  <div className="hndl-section__text">
-    <SectionHead eyebrow="01 / THE QUANTUM THREAT">
-      Harvest now.
-      <br />
-      <span className="text-gradient-gold">Decrypt later.</span>
-    </SectionHead>
+          <div className="hndl-section">
+            {/* Left Side: Sticky Text */}
+            <div className="hndl-section__text">
+              <SectionHead eyebrow="--- THE QUANTUM THREAT">
+                Harvest now.
+                <br />
+                <span className="text-gradient-gold">Decrypt later.</span>
+              </SectionHead>
 
-    <motion.p className="pqc-prose" {...fadeUp}>
-      A quantum computer that breaks RSA won't arrive announced — and it
-      doesn't need to. Encrypted data captured today is being stored in
-      bulk, waiting for the machine that can open it. Email, archives,
-      financial records, state secrets: anything that must stay
-      confidential for years is already exposed.
-    </motion.p>
-  </div>
+              <motion.p className="pqc-prose" {...fadeUp}>
+                A quantum computer that breaks RSA won't arrive announced — and
+                it doesn't need to. Encrypted data captured today is being
+                stored in bulk, waiting for the machine that can open it. Email,
+                archives, financial records, state secrets: anything that must
+                stay confidential for years is already exposed.
+              </motion.p>
+            </div>
 
-  {/* Right Side: The Animation */}
-  <div className="hndl-section__anim">
-    <SecureConnection />
-  </div>
-</div>
+            {/* Right Side: The Animation */}
+            <div className="hndl-section__anim">
+              <SecureConnection />
+            </div>
+          </div>
           <motion.div className="pqc-mosca" {...fadeUp}>
             <span className="pqc-mosca__label">
               MOSCA'S INEQUALITY — WHEN TO START WORRYING
@@ -459,9 +497,9 @@ export default function PQCReadiness() {
 
       {/* ============ 02 — THE QUANTUM TIMELINE ============ */}
       <section className="pqc-sec pqc-sec--alt">
-        <div className="container">
+        <div className="container" style={{display:"flex",flexDirection : "column",justifyContent:"center",alignItems:"center"}}>
           <SectionHead
-            eyebrow="02 / THE QUANTUM TIMELINE"
+            eyebrow="--- THE QUANTUM TIMELINE"
             lead="The milestones that set your migration clock — from the algorithm that broke public-key crypto to the deadline that retires it."
           >
             Thirty years from proof to{" "}
@@ -472,14 +510,13 @@ export default function PQCReadiness() {
       </section>
 
       {/* ============ 03 — NIST STANDARDS ============ */}
-      <PqcSection/>
-
+      <PqcSection />
 
       {/* ============ 04 — MIGRATION ROADMAP ============ */}
       <section className="pqc-sec pqc-sec--alt">
         <div className="container">
           <SectionHead
-            eyebrow="04 / THE MIGRATION ROADMAP"
+            eyebrow="--- THE MIGRATION ROADMAP"
             lead="PQC migration is not a software upgrade — it is a multi-year programme. Here is how we take you from unknown exposure to a verified quantum-safe estate."
           >
             Five phases.
@@ -541,7 +578,10 @@ export default function PQCReadiness() {
               <Link to="/contact" className="pqc-btn pqc-btn--gold">
                 Book a demo <ArrowUpRight size={14} />
               </Link>
-              <a href="mailto:info@qprakriti.com" className="pqc-btn pqc-btn--ghost">
+              <a
+                href="mailto:info@qprakriti.com"
+                className="pqc-btn pqc-btn--ghost"
+              >
                 <Mail size={14} /> info@qprakriti.com
               </a>
             </div>
