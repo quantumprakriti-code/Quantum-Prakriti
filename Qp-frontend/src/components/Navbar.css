@@ -61,7 +61,6 @@
   border-radius: 2px;
   box-shadow: 0 0 10px rgba(212,175,55,0.75);
 }
-
 .advisory__btn.advisory__btn--gold{
   margin-right: 10px;
   background: var(--grad-gold);

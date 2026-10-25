@@ -12,7 +12,7 @@ import {
   Mail,
 } from "lucide-react";
 import "../styles/services.css";
-
+import PqcSection from "../components/PqcSection.jsx";
 /* ================= DATA ================= */
 
 // FIPS 203 (ML-KEM) was finalised on 13 Aug 2024
@@ -360,7 +360,6 @@ export default function PQCReadiness() {
               assess your exposure, and migrate to NIST-standardised
               post-quantum cryptography — before the clock runs out.
             </motion.p>
-
             <motion.div
               className="pqc-hero__actions"
               initial={{ opacity: 0, y: 16 }}
@@ -463,34 +462,8 @@ export default function PQCReadiness() {
       </section>
 
       {/* ============ 03 — NIST STANDARDS ============ */}
-      <section className="pqc-sec" id="standards">
-        <div className="container">
-          <SectionHead
-            eyebrow="03 / NIST STANDARDS"
-            lead="In August 2024, NIST finalised the first post-quantum standards after eight years of open competition. These are the building blocks of your migration."
-          >
-            The algorithms the world{" "}
-            <span className="text-gradient-gold">agreed on.</span>
-          </SectionHead>
+      <PqcSection/>
 
-          <div className="pqc-std">
-            {standards.map((s, i) => (
-              <motion.article
-                key={s.name}
-                className={`pqc-std__card ${s.featured ? "pqc-std__card--featured" : ""}`}
-                {...fadeUp}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-              >
-                <span className="pqc-std__fips">{s.fips}</span>
-                <h3 className="pqc-std__name">{s.name}</h3>
-                <span className="pqc-std__from">{s.from}</span>
-                <p className="pqc-std__desc">{s.desc}</p>
-                <span className="pqc-std__use">{s.use}</span>
-              </motion.article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ============ 04 — MIGRATION ROADMAP ============ */}
       <section className="pqc-sec pqc-sec--alt">
