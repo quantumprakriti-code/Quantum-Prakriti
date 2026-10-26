@@ -668,6 +668,12 @@
     .pqc-final { padding: var(--space-7) var(--space-5); }
     .pqc-btn { width: 100%; justify-content: center; white-space: normal; }
     .pqc-scrollhint { display: none; }
+    .hndl-section{
+      display:flex;
+      flex-direction: column !important;
+      justify-content: center;
+      align-items: center;
+    }
   }
   
   @media (prefers-reduced-motion: reduce) {
@@ -729,6 +735,7 @@
   [data-theme="light"] .pqc-clock__ring { stroke: rgba(168, 134, 42, 0.3); }
   [data-theme="light"] .pqc-clock__tick { stroke: rgba(168, 134, 42, 0.4); }
   /* The main side-by-side container */
+/* ===== HNDL section: base (desktop) ===== */
 .hndl-section {
   display: flex;
   flex-direction: row;
@@ -736,21 +743,57 @@
   justify-content: space-between;
   gap: 4rem;
   width: 100%;
-  position: relative;
-  /* Ensure no overflow or transform here */
 }
 
-/* The left text column */
 .hndl-section__text {
   flex: 0 0 42%;
   position: sticky;
-  top: 25vh; /* Sticks 25% from the top */
+  top: 25vh;
   height: fit-content;
 }
 
-/* The right animation column */
 .hndl-section__anim {
   flex: 1;
   position: relative;
   min-width: 0;
+}
+
+/* ===== HNDL section: tablet / mobile ===== */
+@media (max-width: 1024px) {
+  .hndl-section {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2.5rem;
+    margin-bottom: var(--space-7);
+  }
+
+  .hndl-section__text {
+    flex: none;          /* kill the 42% basis */
+    position: static;    /* no sticky on small screens */
+    width: 100%;
+    max-width: 640px;
+    text-align: center;
+  }
+
+  .hndl-section__text .pqc-prose {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+
+  .hndl-section__anim {
+    flex: none;
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    overflow-x: clip;    /* stops the animation from causing sideways scroll */
+  }
+
+  /* make the animation scale to its container */
+  .hndl-section__anim svg,
+  .hndl-section__anim canvas {
+    max-width: 100%;
+    height: auto;
+  }
 }
