@@ -278,7 +278,7 @@ export default function Navbar() {
                 </div>
 
                 <Link
-                  to="/contact"
+                  to="/book-demo"
                   className="nav__consult nav__consult--block"
                 >
                   Book a Demo ↗
