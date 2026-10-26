@@ -169,7 +169,7 @@ export default function PqcSection() {
     <section ref={rootRef} className={`pqc${intro ? " is-in" : ""}`}>
       <div className="pqc-wrap">
         <h2 className="pqc-h1">
-        Preparing cryptography for a<br/> post-quantum world
+        Preparing cryptography for a<br/> <span className="text-gradient-gold" style={{fontStyle : "italic"}}>post-quantum world</span>
         </h2>
         <p className="pqc-lede">
           Quantum computing and post-quantum cryptography are<br/> related but distinct fields.

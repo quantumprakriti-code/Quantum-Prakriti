@@ -30,8 +30,7 @@
     linear-gradient(160deg, rgba(22, 38, 78, 0.75) 0%, rgba(7, 11, 20, 0.95) 100%);
   --grad-blue: linear-gradient(135deg, #0B1630 0%, #16264E 100%);
 
-  /* Typography */
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-display: 'Libre Bodoni', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 

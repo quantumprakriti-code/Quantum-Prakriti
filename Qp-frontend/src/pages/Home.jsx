@@ -328,7 +328,8 @@ export default function Home() {
           >
             <BlochCursor />
             <span className="eyebrow">Quantum · Security · Innovation</span>
-            <h1 style={{ lineHeight: "25px", marginTop: "20px" }}>
+    
+            <h1 style={{ lineHeight: "50px", marginTop: "20px" }}>
               Engineering a
               <StrokeText
                 className="hero__stroke"

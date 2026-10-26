@@ -502,7 +502,7 @@ export default function PQCReadiness() {
             eyebrow="--- THE QUANTUM TIMELINE"
             lead="The milestones that set your migration clock — from the algorithm that broke public-key crypto to the deadline that retires it."
           >
-            Thirty years from proof to{" "}
+            Thirty {" "}years {" "}from{" "} proof {" "}to{" "}
             <span className="text-gradient-gold">deadline.</span>
           </SectionHead>
           <QuantumTimeline />
@@ -532,7 +532,7 @@ export default function PQCReadiness() {
         <div className="container">
           <motion.div className="pqc-check" {...fadeUp}>
             <span className="pqc-pill pqc-pill--sm">
-              <ShieldCheck size={11} /> 05 / READINESS SELF-CHECK
+              <ShieldCheck size={11} /> --- READINESS SELF-CHECK
             </span>
             <h2 className="pqc-check__title">
               How quantum-ready

@@ -154,6 +154,7 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-align: center;
+  font-family: 'Libre Bodoni', sans-serif !important;
 }
 
 .pqc-h1 span {

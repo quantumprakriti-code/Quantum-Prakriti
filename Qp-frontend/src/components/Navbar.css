@@ -204,12 +204,8 @@
 /* ===== MOBILE THEME TOGGLE ===== */
 
 .nav__mobile-theme {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 4px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  display: none;
+  
 }
 
 .nav__mobile-theme-label {
